@@ -3,6 +3,7 @@ from database import init_db, get_session, DATABASE_URL
 from models import Customer, Pizza, Topping, Order
 from sqlalchemy import func
 import os
+import sys
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-in-production')
@@ -10,9 +11,11 @@ app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-in-pr
 # Initialize database on first run
 try:
     init_db()
-    print("Database initialized successfully")
+    print("Database initialized successfully", file=sys.stderr)
 except Exception as e:
-    print(f"Database initialization error: {e}")
+    print(f"Database initialization error: {e}", file=sys.stderr)
+    import traceback
+    traceback.print_exc()
 
 
 @app.route('/health')
