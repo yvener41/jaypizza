@@ -22,23 +22,29 @@ def health():
 
 @app.route('/')
 def index():
-    session = get_session()
     try:
-        total_customers = session.query(func.count(Customer.id)).scalar()
-        total_pizzas = session.query(func.count(Pizza.id)).scalar()
-        total_orders = session.query(func.count(Order.id)).scalar()
-        total_revenue = session.query(func.sum(Order.total_price)).scalar() or 0
-        
-        recent_orders = session.query(Order).order_by(Order.order_date.desc()).limit(5).all()
-        
-        return render_template('index.html', 
-                             total_customers=total_customers,
-                             total_pizzas=total_pizzas,
-                             total_orders=total_orders,
-                             total_revenue=total_revenue,
-                             recent_orders=recent_orders)
-    finally:
-        session.close()
+        session = get_session()
+        try:
+            total_customers = session.query(func.count(Customer.id)).scalar()
+            total_pizzas = session.query(func.count(Pizza.id)).scalar()
+            total_orders = session.query(func.count(Order.id)).scalar()
+            total_revenue = session.query(func.sum(Order.total_price)).scalar() or 0
+            
+            recent_orders = session.query(Order).order_by(Order.order_date.desc()).limit(5).all()
+            
+            return render_template('index.html', 
+                                 total_customers=total_customers,
+                                 total_pizzas=total_pizzas,
+                                 total_orders=total_orders,
+                                 total_revenue=total_revenue,
+                                 recent_orders=recent_orders)
+        finally:
+            session.close()
+    except Exception as e:
+        print(f"Error in index route: {e}")
+        import traceback
+        traceback.print_exc()
+        return f"Error: {str(e)}", 500
 
 
 @app.route('/customers')
