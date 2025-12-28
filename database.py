@@ -8,7 +8,7 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     DATABASE_URL = "sqlite:////tmp/pizza_store.db"
 else:
     DATABASE_URL = "sqlite:///pizza_store.db"
-    
+
 engine = create_engine(
     DATABASE_URL, 
     echo=True,

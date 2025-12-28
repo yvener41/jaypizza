@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from database import init_db, get_session
+from database import init_db, get_session, DATABASE_URL
 from models import Customer, Pizza, Topping, Order
 from sqlalchemy import func
 import os
@@ -18,6 +18,21 @@ except Exception as e:
 @app.route('/health')
 def health():
     return {'status': 'ok'}, 200
+
+
+@app.route('/debug')
+def debug():
+    import sys
+    return {
+        'python_version': sys.version,
+        'port': os.environ.get('PORT', 'not set'),
+        'railway_env': os.environ.get('RAILWAY_ENVIRONMENT', 'not set'),
+        'database_url': DATABASE_URL if 'DATABASE_URL' in globals() else 'not imported',
+        'tmp_exists': os.path.exists('/tmp'),
+        'tmp_writable': os.access('/tmp', os.W_OK),
+        'cwd': os.getcwd(),
+        'app_dir_contents': os.listdir('.')
+    }, 200
 
 
 @app.route('/')
