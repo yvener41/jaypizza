@@ -1,9 +1,14 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Base
+import os
 
-# Create SQLite database
-DATABASE_URL = "sqlite:///pizza_store.db"
+# Create SQLite database - use /tmp on Railway for writable storage
+if os.environ.get('RAILWAY_ENVIRONMENT'):
+    DATABASE_URL = "sqlite:////tmp/pizza_store.db"
+else:
+    DATABASE_URL = "sqlite:///pizza_store.db"
+    
 engine = create_engine(DATABASE_URL, echo=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
