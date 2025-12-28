@@ -23,6 +23,11 @@ def health():
     return 'OK', 200
 
 
+@app.route('/test')
+def test():
+    return 'Test successful!', 200
+
+
 @app.route('/debug')
 def debug():
     import sys
