@@ -18,33 +18,6 @@ except Exception as e:
     traceback.print_exc()
 
 
-@app.route('/health')
-def health():
-    return 'OK', 200
-
-
-@app.route('/test')
-def test():
-    return 'Test successful!', 200
-
-
-@app.route('/debug')
-def debug():
-    import sys
-    import json
-    data = {
-        'python_version': sys.version,
-        'port': os.environ.get('PORT', 'not set'),
-        'railway_env': os.environ.get('RAILWAY_ENVIRONMENT', 'not set'),
-        'database_url': DATABASE_URL,
-        'tmp_exists': os.path.exists('/tmp'),
-        'tmp_writable': os.access('/tmp', os.W_OK),
-        'cwd': os.getcwd(),
-        'app_dir_contents': os.listdir('.')
-    }
-    return json.dumps(data), 200, {'Content-Type': 'application/json'}
-
-
 @app.route('/')
 def index():
     try:
