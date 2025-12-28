@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Customers - Pizza Store{% endblock %}
+
+{% block content %}
+<h2 class="page-title">👥 Customers</h2>
+
+<div class="add-button">
+    <a href="{{ url_for('add_customer') }}" class="btn btn-success">+ Add New Customer</a>
+</div>
+
+{% if customers %}
+<div class="table-wrapper">
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Joined</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer.id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.created_at.strftime('%Y-%m-%d') }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_customer', customer_id=customer.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete {{ customer.name }}?');">
+                    <button type="submit" class="btn-delete">🗑️ Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<p>No customers found. <a href="{{ url_for('add_customer') }}" class="btn">Add your first customer</a></p>
+{% endif %}
+{% endblock %}

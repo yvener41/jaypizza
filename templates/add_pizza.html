@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Add Pizza - Pizza Store{% endblock %}
+
+{% block content %}
+<h2 class="page-title">➕ Add New Pizza</h2>
+
+<form method="POST" action="{{ url_for('add_pizza') }}">
+    <div class="form-group">
+        <label for="name">Pizza Name *</label>
+        <input type="text" id="name" name="name" required placeholder="e.g., Margherita">
+    </div>
+
+    <div class="form-group">
+        <label for="size">Size *</label>
+        <select id="size" name="size" required>
+            <option value="">Select size</option>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+            <option value="Extra Large">Extra Large</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="base_price">Base Price ($) *</label>
+        <input type="number" id="base_price" name="base_price" step="0.01" min="0" required placeholder="12.99">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Describe your delicious pizza..."></textarea>
+    </div>
+
+    {% if toppings %}
+    <div class="form-group">
+        <label>Toppings (Optional)</label>
+        <div class="checkbox-group">
+            {% for topping in toppings %}
+            <div class="checkbox-item">
+                <input type="checkbox" id="topping_{{ topping.id }}" name="toppings" value="{{ topping.id }}">
+                <label for="topping_{{ topping.id }}">{{ topping.name }} (+${{ "%.2f"|format(topping.price) }})</label>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-success">Add Pizza</button>
+    <a href="{{ url_for('pizzas') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

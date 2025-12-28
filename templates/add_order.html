@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Create Order - Pizza Store{% endblock %}
+
+{% block content %}
+<h2 class="page-title">➕ Create New Order</h2>
+
+<form method="POST" action="{{ url_for('add_order') }}">
+    <div class="form-group">
+        <label for="customer_id">Customer *</label>
+        <select id="customer_id" name="customer_id" required>
+            <option value="">Select a customer</option>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }} ({{ customer.email }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Select Pizzas *</label>
+        <div class="checkbox-group">
+            {% for pizza in pizzas %}
+            <div class="checkbox-item">
+                <input type="checkbox" id="pizza_{{ pizza.id }}" name="pizzas" value="{{ pizza.id }}">
+                <label for="pizza_{{ pizza.id }}">{{ pizza.name }} ({{ pizza.size }}) - ${{ "%.2f"|format(pizza.base_price) }}</label>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="status">Order Status *</label>
+        <select id="status" name="status" required>
+            <option value="pending">Pending</option>
+            <option value="preparing">Preparing</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="delivery_address">Delivery Address *</label>
+        <textarea id="delivery_address" name="delivery_address" required placeholder="Enter delivery address"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create Order</button>
+    <a href="{{ url_for('orders') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

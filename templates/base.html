@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>{% block title %}Pizza Store{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <a href="{{ url_for('index') }}" class="logo">
+                    <div class="logo-icon">🍕</div>
+                    <h1>Jay Pizza</h1>
+                </a>
+                <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+                <nav>
+                    <ul id="mainMenu" class="hidden">
+                        <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Dashboard</a></li>
+                        <li><a href="{{ url_for('customers') }}" class="{% if request.endpoint == 'customers' %}active{% endif %}">Customers</a></li>
+                        <li><a href="{{ url_for('pizzas') }}" class="{% if request.endpoint == 'pizzas' %}active{% endif %}">Pizzas</a></li>
+                        <li><a href="{{ url_for('orders') }}" class="{% if request.endpoint == 'orders' %}active{% endif %}">Orders</a></li>
+                        <li><a href="{{ url_for('toppings') }}" class="{% if request.endpoint == 'toppings' %}active{% endif %}">Toppings</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mainMenu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // Show menu on desktop, hide on mobile by default
+        function checkWidth() {
+            const menu = document.getElementById('mainMenu');
+            if (window.innerWidth > 768) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        }
+        
+        window.addEventListener('resize', checkWidth);
+        window.addEventListener('load', checkWidth);
+    </script>
+</body>
+</html>

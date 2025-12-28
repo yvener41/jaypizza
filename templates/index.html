@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Pizza Store{% endblock %}
+
+{% block content %}
+<h2 class="page-title">📊 Dashboard</h2>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>Total Customers</h3>
+        <div class="stat-value">{{ total_customers }}</div>
+        <p>Registered users</p>
+    </div>
+    <div class="stat-card">
+        <h3>Pizza Menu Items</h3>
+        <div class="stat-value">{{ total_pizzas }}</div>
+        <p>Available pizzas</p>
+    </div>
+    <div class="stat-card">
+        <h3>Total Orders</h3>
+        <div class="stat-value">{{ total_orders }}</div>
+        <p>Orders placed</p>
+    </div>
+    <div class="stat-card">
+        <h3>Total Revenue</h3>
+        <div class="stat-value">${{ "%.2f"|format(total_revenue) }}</div>
+        <p>All time sales</p>
+    </div>
+</div>
+
+<div class="recent-orders">
+    <h2>🕒 Recent Orders</h2>
+    {% if recent_orders %}
+    <div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in recent_orders %}
+            <tr>
+                <td>#{{ order.id }}</td>
+                <td>{{ order.customer.name }}</td>
+                <td>{{ order.order_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>${{ "%.2f"|format(order.total_price) }}</td>
+                <td><span class="status-badge status-{{ order.status }}">{{ order.status }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% else %}
+    <p>No orders yet. <a href="{{ url_for('add_order') }}" class="btn btn-secondary">Create First Order</a></p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Add Topping - Pizza Store{% endblock %}
+
+{% block content %}
+<h2 class="page-title">➕ Add New Topping</h2>
+
+<form method="POST" action="{{ url_for('add_topping') }}">
+    <div class="form-group">
+        <label for="name">Topping Name *</label>
+        <input type="text" id="name" name="name" required placeholder="e.g., Extra Cheese">
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price ($) *</label>
+        <input type="number" id="price" name="price" step="0.01" min="0" required placeholder="1.50">
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Topping</button>
+    <a href="{{ url_for('toppings') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

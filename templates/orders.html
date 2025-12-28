@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Orders - Pizza Store{% endblock %}
+
+{% block content %}
+<h2 class="page-title">📦 Orders</h2>
+
+<div class="add-button">
+    <a href="{{ url_for('add_order') }}" class="btn btn-success">+ Create New Order</a>
+</div>
+
+{% if orders %}
+<div class="table-wrapper">
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Pizzas</th>
+            <th>Order Date</th>
+            <th>Delivery Address</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>#{{ order.id }}</td>
+            <td>{{ order.customer.name }}</td>
+            <td>
+                {% for pizza in order.pizzas %}
+                    {{ pizza.name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ order.order_date.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ order.delivery_address }}</td>
+            <td>${{ "%.2f"|format(order.total_price) }}</td>
+            <td><span class="status-badge status-{{ order.status }}">{{ order.status }}</span></td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_order', order_id=order.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete order #{{ order.id }}?');">
+                    <button type="submit" class="btn-delete">🗑️ Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<p>No orders yet. <a href="{{ url_for('add_order') }}" class="btn">Create your first order</a></p>
+{% endif %}
+{% endblock %}

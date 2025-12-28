@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Pizzas - Pizza Store{% endblock %}
+
+{% block content %}
+<h2 class="page-title">🍕 Pizza Menu</h2>
+
+<div class="add-button">
+    <a href="{{ url_for('add_pizza') }}" class="btn btn-success">+ Add New Pizza</a>
+</div>
+
+{% if pizzas %}
+<div class="pizza-grid">
+    {% for pizza in pizzas %}
+    <div class="pizza-card">
+        <h3>{{ pizza.name }}</h3>
+        <span class="pizza-size">{{ pizza.size }}</span>
+        <div class="pizza-price">${{ "%.2f"|format(pizza.base_price) }}</div>
+        <p class="pizza-description">{{ pizza.description or 'Delicious pizza' }}</p>
+        {% if pizza.toppings %}
+        <div class="toppings-list">
+            <strong>Toppings:</strong><br>
+            {% for topping in pizza.toppings %}
+                <span class="topping-tag">{{ topping.name }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No pizzas in the menu yet. <a href="{{ url_for('add_pizza') }}" class="btn">Add your first pizza</a></p>
+{% endif %}
+{% endblock %}
