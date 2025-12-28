@@ -1,1 +1,1 @@
-web: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 0 --access-logfile - --error-logfile - --log-level debug
+web: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 0 --access-logfile - --error-logfile - --log-level debug --preload

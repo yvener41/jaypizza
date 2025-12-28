@@ -9,7 +9,12 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
 else:
     DATABASE_URL = "sqlite:///pizza_store.db"
     
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(
+    DATABASE_URL, 
+    echo=True,
+    connect_args={"check_same_thread": False},
+    pool_pre_ping=True
+)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
