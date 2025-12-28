@@ -20,22 +20,24 @@ except Exception as e:
 
 @app.route('/health')
 def health():
-    return {'status': 'ok'}, 200
+    return 'OK', 200
 
 
 @app.route('/debug')
 def debug():
     import sys
-    return {
+    import json
+    data = {
         'python_version': sys.version,
         'port': os.environ.get('PORT', 'not set'),
         'railway_env': os.environ.get('RAILWAY_ENVIRONMENT', 'not set'),
-        'database_url': DATABASE_URL if 'DATABASE_URL' in globals() else 'not imported',
+        'database_url': DATABASE_URL,
         'tmp_exists': os.path.exists('/tmp'),
         'tmp_writable': os.access('/tmp', os.W_OK),
         'cwd': os.getcwd(),
         'app_dir_contents': os.listdir('.')
-    }, 200
+    }
+    return json.dumps(data), 200, {'Content-Type': 'application/json'}
 
 
 @app.route('/')
