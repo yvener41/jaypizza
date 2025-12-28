@@ -2,15 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from database import init_db, get_session
 from models import Customer, Pizza, Topping, Order
 from sqlalchemy import func
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here-change-in-production'
+app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-in-production')
 
 # Initialize database on first run
 try:
     init_db()
-except:
-    pass
+    print("Database initialized successfully")
+except Exception as e:
+    print(f"Database initialization error: {e}")
 
 
 @app.route('/')
