@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Create Order - Pizza Store{% endblock %}
+{% block title %}New Order — Jay Pizza{% endblock %}
+{% block topbar_title %}New Order{% endblock %}
 
 {% block content %}
-<h2 class="page-title">➕ Create New Order</h2>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Create Order</h1>
+        <p class="page-subtitle">Place a new customer order.</p>
+    </div>
+</div>
 
+<div class="form-card">
 <form method="POST" action="{{ url_for('add_order') }}">
     <div class="form-group">
         <label for="customer_id">Customer *</label>
@@ -43,7 +50,10 @@
         <textarea id="delivery_address" name="delivery_address" required placeholder="Enter delivery address"></textarea>
     </div>
 
-    <button type="submit" class="btn btn-success">Create Order</button>
-    <a href="{{ url_for('orders') }}" class="btn btn-secondary">Cancel</a>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="submit" class="btn">Create Order</button>
+        <a href="{{ url_for('orders') }}" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
+</div>
 {% endblock %}

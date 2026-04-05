@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Add Topping - Pizza Store{% endblock %}
+{% block title %}Add Topping — Jay Pizza{% endblock %}
+{% block topbar_title %}Add Topping{% endblock %}
 
-{% block content %}
-<h2 class="page-title">➕ Add New Topping</h2>
+{% block content %>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Add Topping</h1>
+        <p class="page-subtitle">Add a new topping option.</p>
+    </div>
+</div>
 
+<div class="form-card">
 <form method="POST" action="{{ url_for('add_topping') }}">
     <div class="form-group">
         <label for="name">Topping Name *</label>
@@ -16,7 +23,10 @@
         <input type="number" id="price" name="price" step="0.01" min="0" required placeholder="1.50">
     </div>
 
-    <button type="submit" class="btn btn-success">Add Topping</button>
-    <a href="{{ url_for('toppings') }}" class="btn btn-secondary">Cancel</a>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="submit" class="btn">Add Topping</button>
+        <a href="{{ url_for('toppings') }}" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
+</div>
 {% endblock %}

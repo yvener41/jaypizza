@@ -3,11 +3,13 @@ from sqlalchemy.orm import sessionmaker
 from models import Base
 import os
 
-# Create SQLite database - use /tmp on Railway for writable storage
+# Use absolute path so SQLite always writes to the project folder
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 if os.environ.get('RAILWAY_ENVIRONMENT'):
     DATABASE_URL = "sqlite:////tmp/pizza_store.db"
 else:
-    DATABASE_URL = "sqlite:///pizza_store.db"
+    DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'pizza_store.db')}"
 
 engine = create_engine(
     DATABASE_URL, 

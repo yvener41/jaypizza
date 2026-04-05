@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}Pizzas - Pizza Store{% endblock %}
+{% block title %}Pizzas — Jay Pizza{% endblock %}
+{% block topbar_title %}Pizzas{% endblock %}
 
 {% block content %}
-<h2 class="page-title">🍕 Pizza Menu</h2>
-
-<div class="add-button">
-    <a href="{{ url_for('add_pizza') }}" class="btn btn-success">+ Add New Pizza</a>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Pizza Menu</h1>
+        <p class="page-subtitle">Manage your pizza offerings.</p>
+    </div>
+    <a href="{{ url_for('add_pizza') }}" class="btn">+ Add Pizza</a>
 </div>
 
 {% if pizzas %}
 <div class="pizza-grid">
     {% for pizza in pizzas %}
     <div class="pizza-card">
-        <h3>{{ pizza.name }}</h3>
-        <span class="pizza-size">{{ pizza.size }}</span>
+        <div class="pizza-card-top">
+            <h3>{{ pizza.name }}</h3>
+            <span class="pizza-size">{{ pizza.size }}</span>
+        </div>
         <div class="pizza-price">${{ "%.2f"|format(pizza.base_price) }}</div>
         <p class="pizza-description">{{ pizza.description or 'Delicious pizza' }}</p>
         {% if pizza.toppings %}
@@ -29,6 +34,10 @@
     {% endfor %}
 </div>
 {% else %}
-<p>No pizzas in the menu yet. <a href="{{ url_for('add_pizza') }}" class="btn">Add your first pizza</a></p>
+<div class="empty-state">
+    <div class="empty-icon">🍕</div>
+    <p>No pizzas on the menu yet.</p>
+    <a href="{{ url_for('add_pizza') }}" class="btn">Add your first pizza</a>
+</div>
 {% endif %}
 {% endblock %}

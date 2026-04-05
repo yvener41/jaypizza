@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Add Customer - Pizza Store{% endblock %}
+{% block title %}Add Customer — Jay Pizza{% endblock %}
+{% block topbar_title %}Add Customer{% endblock %}
 
 {% block content %}
-<h2 class="page-title">➕ Add New Customer</h2>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Add Customer</h1>
+        <p class="page-subtitle">Register a new customer.</p>
+    </div>
+</div>
 
+<div class="form-card">
 <form method="POST" action="{{ url_for('add_customer') }}">
     <div class="form-group">
         <label for="name">Full Name *</label>
@@ -26,7 +33,10 @@
         <textarea id="address" name="address" placeholder="123 Main St, City, State"></textarea>
     </div>
 
-    <button type="submit" class="btn btn-success">Add Customer</button>
-    <a href="{{ url_for('customers') }}" class="btn btn-secondary">Cancel</a>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="submit" class="btn">Add Customer</button>
+        <a href="{{ url_for('customers') }}" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
+</div>
 {% endblock %}

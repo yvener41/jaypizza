@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Add Pizza - Pizza Store{% endblock %}
+{% block title %}Add Pizza — Jay Pizza{% endblock %}
+{% block topbar_title %}Add Pizza{% endblock %}
 
 {% block content %}
-<h2 class="page-title">➕ Add New Pizza</h2>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Add Pizza</h1>
+        <p class="page-subtitle">Add a new pizza to the menu.</p>
+    </div>
+</div>
 
+<div class="form-card">
 <form method="POST" action="{{ url_for('add_pizza') }}">
     <div class="form-group">
         <label for="name">Pizza Name *</label>
@@ -46,7 +53,10 @@
     </div>
     {% endif %}
 
-    <button type="submit" class="btn btn-success">Add Pizza</button>
-    <a href="{{ url_for('pizzas') }}" class="btn btn-secondary">Cancel</a>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="submit" class="btn">Add Pizza</button>
+        <a href="{{ url_for('pizzas') }}" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
+</div>
 {% endblock %}

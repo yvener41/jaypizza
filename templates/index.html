@@ -1,35 +1,57 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Pizza Store{% endblock %}
+{% block title %}Dashboard — Jay Pizza{% endblock %}
+{% block topbar_title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2 class="page-title">📊 Dashboard</h2>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Welcome back — here's what's happening today.</p>
+    </div>
+    <a href="{{ url_for('add_order') }}" class="btn">+ New Order</a>
+</div>
 
 <div class="stats-grid">
     <div class="stat-card">
-        <h3>Total Customers</h3>
-        <div class="stat-value">{{ total_customers }}</div>
-        <p>Registered users</p>
+        <div class="stat-icon">👥</div>
+        <div class="stat-body">
+            <h3>Total Customers</h3>
+            <div class="stat-value">{{ total_customers }}</div>
+            <p>Registered users</p>
+        </div>
     </div>
     <div class="stat-card">
-        <h3>Pizza Menu Items</h3>
-        <div class="stat-value">{{ total_pizzas }}</div>
-        <p>Available pizzas</p>
+        <div class="stat-icon">🍕</div>
+        <div class="stat-body">
+            <h3>Pizza Menu Items</h3>
+            <div class="stat-value">{{ total_pizzas }}</div>
+            <p>Available pizzas</p>
+        </div>
     </div>
     <div class="stat-card">
-        <h3>Total Orders</h3>
-        <div class="stat-value">{{ total_orders }}</div>
-        <p>Orders placed</p>
+        <div class="stat-icon">📋</div>
+        <div class="stat-body">
+            <h3>Total Orders</h3>
+            <div class="stat-value">{{ total_orders }}</div>
+            <p>Orders placed</p>
+        </div>
     </div>
     <div class="stat-card">
-        <h3>Total Revenue</h3>
-        <div class="stat-value">${{ "%.2f"|format(total_revenue) }}</div>
-        <p>All time sales</p>
+        <div class="stat-icon">💰</div>
+        <div class="stat-body">
+            <h3>Total Revenue</h3>
+            <div class="stat-value">${{ "%.2f"|format(total_revenue) }}</div>
+            <p>All time sales</p>
+        </div>
     </div>
 </div>
 
-<div class="recent-orders">
-    <h2>🕒 Recent Orders</h2>
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">🕒 Recent Orders</span>
+        <a href="{{ url_for('orders') }}" class="btn btn-secondary btn-sm">View all</a>
+    </div>
     {% if recent_orders %}
     <div class="table-wrapper">
     <table>
@@ -45,10 +67,10 @@
         <tbody>
             {% for order in recent_orders %}
             <tr>
-                <td>#{{ order.id }}</td>
+                <td class="td-bold">#{{ order.id }}</td>
                 <td>{{ order.customer.name }}</td>
                 <td>{{ order.order_date.strftime('%Y-%m-%d %H:%M') }}</td>
-                <td>${{ "%.2f"|format(order.total_price) }}</td>
+                <td class="td-bold">${{ "%.2f"|format(order.total_price) }}</td>
                 <td><span class="status-badge status-{{ order.status }}">{{ order.status }}</span></td>
             </tr>
             {% endfor %}
@@ -56,7 +78,11 @@
     </table>
     </div>
     {% else %}
-    <p>No orders yet. <a href="{{ url_for('add_order') }}" class="btn btn-secondary">Create First Order</a></p>
+    <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>No orders yet. Place your first one!</p>
+        <a href="{{ url_for('add_order') }}" class="btn">Create First Order</a>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

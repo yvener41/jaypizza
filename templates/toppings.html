@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Toppings - Pizza Store{% endblock %}
+{% block title %}Toppings — Jay Pizza{% endblock %}
+{% block topbar_title %}Toppings{% endblock %}
 
 {% block content %}
-<h2 class="page-title">🧀 Toppings</h2>
-
-<div class="add-button">
-    <a href="{{ url_for('add_topping') }}" class="btn btn-success">+ Add New Topping</a>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Toppings</h1>
+        <p class="page-subtitle">Manage available pizza toppings.</p>
+    </div>
+    <a href="{{ url_for('add_topping') }}" class="btn">+ Add Topping</a>
 </div>
 
+<div class="card">
 {% if toppings %}
 <div class="table-wrapper">
 <table>
@@ -23,7 +27,7 @@
         {% for topping in toppings %}
         <tr>
             <td>{{ topping.id }}</td>
-            <td>{{ topping.name }}</td>
+            <td class="td-bold">{{ topping.name }}</td>
             <td>${{ "%.2f"|format(topping.price) }}</td>
         </tr>
         {% endfor %}
@@ -31,6 +35,11 @@
 </table>
 </div>
 {% else %}
-<p>No toppings available. <a href="{{ url_for('add_topping') }}" class="btn">Add your first topping</a></p>
+<div class="empty-state">
+    <div class="empty-icon">🧄</div>
+    <p>No toppings yet.</p>
+    <a href="{{ url_for('add_topping') }}" class="btn">Add your first topping</a>
+</div>
 {% endif %}
+</div>
 {% endblock %}
